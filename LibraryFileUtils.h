@@ -239,7 +239,8 @@ void fetchUserByFirstName(std::string firstName)
         while (std::getline(file, line))
         {
             std::istringstream iss(line);
-            if(line.find(firstName) != std::string::npos){
+            if (line.find(firstName) != std::string::npos)
+            {
                 std::string token;
                 std::vector<std::string> userData;
                 while (std::getline(iss, token, ','))
@@ -247,11 +248,68 @@ void fetchUserByFirstName(std::string firstName)
                     userData.push_back(token);
                 }
                 std::cout << "First Name: " << userData[0] << ", Last Name: " << userData[1] << std::endl;
-            } else {
+            }
+            else
+            {
                 std::cout << "User not found." << std::endl;
             }
         }
         file.close();
+    }
+}
+
+void fetchBookByTitle(std::string title)
+{
+    std::ifstream file(libraryFile);
+    if (file.is_open())
+    {
+        std::string line;
+        bool bookFound = false; // Flag to track if the book was found
+
+        while (std::getline(file, line))
+        {
+            // Ignore empty lines
+            if (line.empty())
+                continue;
+
+            // Check if the current line contains the desired title
+            if (line.find("Title: " + title) != std::string::npos)
+            {
+                std::string authorLine, yearLine, genreLine;
+
+                // Get the next lines for author, year, and genre
+                std::getline(file, authorLine);
+                std::getline(file, yearLine);
+                std::getline(file, genreLine);
+
+                // Make sure these lines contain valid book information
+                if (authorLine.find("Author: ") != std::string::npos &&
+                    yearLine.find("Year: ") != std::string::npos &&
+                    genreLine.find("Genre: ") != std::string::npos)
+                {
+                    std::cout << "Found the book with title: " << title << std::endl;
+                    // std::cout << "Title: " << title << std::endl;
+                    std::cout << "Author: " << authorLine.substr(8) << std::endl;
+                    std::cout << "Year: " << yearLine.substr(6) << std::endl;
+                    std::cout << "Genre: " << genreLine.substr(7) << std::endl;
+
+                    bookFound = true; // Set flag to true since the book was found
+                    break;            // Exit the loop once the book is found
+                }
+            }
+        }
+
+        file.close();
+
+        // If the book was not found, print an appropriate message
+        if (!bookFound)
+        {
+            std::cout << "Book with title '" << title << "' not found." << std::endl;
+        }
+    }
+    else
+    {
+        std::cout << "Unable to open file." << std::endl;
     }
 }
 

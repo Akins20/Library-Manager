@@ -119,6 +119,17 @@ void removeBook()
     std::cout << "Book removed successfully.\n";
 }
 
+void searchForBook(){
+    // Search for book implementation
+    std::cout << "Searching for book..." << std::endl;
+    std::cout << "-----------------------------" << std::endl;
+    Book book;
+    book.setTitle();
+    fetchBookByTitle(book.getTitle());
+    // std::cout << "-----------------------------" << std::endl;
+    // std::cout << "Book found!" << std::endl;
+}
+
 void initiateLibrarySystem(int choice)
 {
     switch (choice)
@@ -138,9 +149,9 @@ void initiateLibrarySystem(int choice)
     case 5:
         searchForUser();
         break;
-    // case 6:
-    //     searchForBook();
-    //     break;
+    case 6:
+        searchForBook();
+        break;
     case 7:
         displayUsers();
         break;
