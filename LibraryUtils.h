@@ -56,6 +56,11 @@ void displayUsers()
     fetchUsersFromFile();
 }
 
+void displayBooks(){
+    std::cout << "Fetching books..." << std::endl;
+    fetchBooksFromFile();
+}
+
 void initiateLibrarySystem(int choice)
 {
     switch (choice)
@@ -66,12 +71,12 @@ void initiateLibrarySystem(int choice)
     case 2:
         removeUser();
         break;
-    // case 3:
-    //     addBook();
-    //     break;
-    // case 4:
-    //     removeBook();
-    //     break;
+    case 3:
+        addBook();
+        break;
+    case 4:
+        removeBook();
+        break;
     // case 5:
     //     searchForUser();
     //     break;
@@ -81,9 +86,9 @@ void initiateLibrarySystem(int choice)
     case 7:
         displayUsers();
         break;
-    // case 8:
-    //     displayBooks();
-    //     break;
+    case 8:
+        displayBooks();
+        break;
     // case 9:
     //     updateBook();
     //     break;
@@ -94,6 +99,46 @@ void initiateLibrarySystem(int choice)
         std::cout << "Invalid choice. Please try again.\n";
     }
 }
+
+void addBook()
+{
+    // Add book implementation
+    std::cout << "Adding book to library..." << std::endl;
+    Book book;
+    std::vector<std::string> booksInfo;
+    book.setTitle();
+    book.setAuthor();
+    book.setYear();
+    book.setGenre();
+
+    booksInfo.push_back(book.getTitle());
+    booksInfo.push_back(book.getAuthor());
+    booksInfo.push_back(std::to_string(book.getYear()));
+    booksInfo.push_back(book.getGenre());
+
+    saveBookToFile(booksInfo);
+    std::cout << "Book added successfully.\n";
+}
+
+void removeBook(){
+    // Remove book implementation
+    std::cout << "Removing book from library..." << std::endl;
+    Book book;
+    std::vector<std::string> booksInfo;
+    book.setTitle();
+    book.setAuthor();
+    book.setYear();
+    book.setGenre();
+    booksInfo.push_back(book.getTitle());
+    booksInfo.push_back(book.getAuthor());
+    booksInfo.push_back(std::to_string(book.getYear()));
+    booksInfo.push_back(book.getGenre());
+
+    removeBookFromFile(booksInfo);
+    std::cout << "Book removed successfully.\n";
+}
+
+
 
 void displayMenu()
 {

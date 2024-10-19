@@ -13,16 +13,7 @@ public:
     std::string title;
     std::string author;
     int year;
-    int genre;
-
-    // Constructor
-    Book(std::string t, std::string a, int y, int p)
-    {
-        title = t;
-        author = a;
-        year = y;
-        genre = p;
-    }
+    std::string genre;
 
     // Getters
     std::string getTitle()
@@ -37,7 +28,7 @@ public:
     {
         return year;
     }
-    int getGenre()
+    std::string getGenre()
     {
         return genre;
     }

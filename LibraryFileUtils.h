@@ -93,6 +93,7 @@ void removeUserFromFile(std::vector<std::string> userInfo)
 }
 
 void fetchUsersFromFile()
+
 {
     std::ifstream file(userFile);
     if (file.is_open())
@@ -116,3 +117,84 @@ void fetchUsersFromFile()
         std::cout << "Unable to open file." << std::endl;
     }
 }
+
+// To save inputed book into file file(database)
+void saveBookToFile(std::vector<std::string> bookInfo)
+{
+    std::ofstream file(libraryFile, std::ios::app);
+    if (file.is_open())
+    {
+        file << "Title: " << bookInfo[0] << std::endl;
+        file << "Author: " << bookInfo[1] << std::endl;
+        file << "Year: " << bookInfo[2] << std::endl;
+        file << "Genre: " << bookInfo[3] << std::endl;
+
+        file << std::endl;
+        file.close();
+    }
+    else
+    {
+        std::cout << "Unable to open file." << std::endl;
+    }
+}
+
+//To remove the inputted book info from file(database)
+void removeBookFromFile(std::vector<std::string> bookInfo)
+{
+    std::ifstream file(libraryFile);
+    std::ofstream tempFile("temp.txt");
+    bool mainFileOpen = false;
+    bool tempFileOpen = false;
+    if (file.is_open())
+    {
+        mainFileOpen = true;
+        std::string line;
+        while (std::getline(file, line))
+        {
+            if (line.find("Title: " + bookInfo[0]) != std::string::npos &&
+                line.find("Author: " + bookInfo[1]) != std::string::npos &&
+                line.find("Year: " + bookInfo[2]) != std::string::npos &&
+                line.find("Genre: " + bookInfo[3]) != std::string::npos)
+            {
+                continue;
+            }
+            tempFileOpen = true;
+            tempFile << line << std::endl;
+        }
+        file.close();
+        mainFileOpen = false;
+        tempFile.close();
+        tempFileOpen = false;
+        // Delete the library data file and rename the tempfile to the librarydata file if the main file and temp file are closed successfully
+        if (!mainFileOpen && !tempFileOpen)
+        {
+            std::remove(libraryFile.c_str());
+            std::rename("temp.txt", libraryFile.c_str());
+        }
+    }
+    else
+    {
+        std::cout << "Unable to open file." << std::endl;
+        return;
+    }
+
+    std::cout << "Book has been removed from the database." << std::endl;
+}
+
+void fetchBooksFromFile(){
+    std::ifstream file(libraryFile);
+    if (file.is_open())
+    {
+        std::string line;
+        while (std::getline(file, line))
+        {
+            std::cout << line << std::endl;
+        }
+        file.close();
+    }
+    else
+    {
+        std::cout << "Unable to open file." << std::endl;
+    }
+}
+// End of file
