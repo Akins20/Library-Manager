@@ -53,51 +53,17 @@ void removeUser()
 void displayUsers()
 {
     std::cout << "Fetching users..." << std::endl;
+    std::cout << "-----------------------------" << std::endl;
+
     fetchUsersFromFile();
 }
 
-void displayBooks(){
-    std::cout << "Fetching books..." << std::endl;
-    fetchBooksFromFile();
-}
-
-void initiateLibrarySystem(int choice)
+void displayBooks()
 {
-    switch (choice)
-    {
-    case 1:
-        addUser();
-        break;
-    case 2:
-        removeUser();
-        break;
-    case 3:
-        addBook();
-        break;
-    case 4:
-        removeBook();
-        break;
-    // case 5:
-    //     searchForUser();
-    //     break;
-    // case 6:
-    //     searchForBook();
-    //     break;
-    case 7:
-        displayUsers();
-        break;
-    case 8:
-        displayBooks();
-        break;
-    // case 9:
-    //     updateBook();
-    //     break;
-    // case 10:
-    //     updateUser();
-    //     break;
-    default:
-        std::cout << "Invalid choice. Please try again.\n";
-    }
+    std::cout << "Fetching books..." << std::endl;
+    std::cout << "-----------------------------" << std::endl;
+
+    fetchBooksFromFile();
 }
 
 void addBook()
@@ -120,9 +86,24 @@ void addBook()
     std::cout << "Book added successfully.\n";
 }
 
-void removeBook(){
+void searchForUser()
+{
+    // Search for user implementation
+    std::cout << "Searching for user..." << std::endl;
+    std::cout << "-----------------------------" << std::endl;
+    User user;
+    user.setFirstName();
+    
+    fetchUserByFirstName(user.getFirstName());
+
+    std::cout << "User found!" << std::endl;
+}
+
+void removeBook()
+{
     // Remove book implementation
     std::cout << "Removing book from library..." << std::endl;
+    std::cout << "-----------------------------" << std::endl;
     Book book;
     std::vector<std::string> booksInfo;
     book.setTitle();
@@ -138,7 +119,44 @@ void removeBook(){
     std::cout << "Book removed successfully.\n";
 }
 
-
+void initiateLibrarySystem(int choice)
+{
+    switch (choice)
+    {
+    case 1:
+        addUser();
+        break;
+    case 2:
+        removeUser();
+        break;
+    case 3:
+        addBook();
+        break;
+    case 4:
+        removeBook();
+        break;
+    case 5:
+        searchForUser();
+        break;
+    // case 6:
+    //     searchForBook();
+    //     break;
+    case 7:
+        displayUsers();
+        break;
+    case 8:
+        displayBooks();
+        break;
+    // case 9:
+    //     updateBook();
+    //     break;
+    // case 10:
+    //     updateUser();
+    //     break;
+    default:
+        std::cout << "Invalid choice. Please try again.\n";
+    }
+}
 
 void displayMenu()
 {

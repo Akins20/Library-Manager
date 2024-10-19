@@ -37,12 +37,13 @@ public:
     void setTitle()
     {
         std::cout << "Enter the title: ";
-        std::cin >> title;
+        std::cin.ignore();
+        std::getline(std::cin, title);
     }
     void setAuthor()
     {
         std::cout << "Enter the author: ";
-        std::cin >> author;
+        std::getline(std::cin, author);
     }
     void setYear()
     {
@@ -51,7 +52,8 @@ public:
     }
     void setGenre()
     {
-        std::cout << "Enter ISBN: ";
-        std::cin >> genre;
+        std::cout << "Enter Genre: ";
+        std::cin.ignore();
+        std::getline(std::cin, genre);
     }
 };
