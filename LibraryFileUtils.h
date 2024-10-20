@@ -251,16 +251,21 @@ void fetchUserByFirstName(std::string firstName)
             }
             else
             {
-                std::cout << "User not found." << std::endl;
+                continue;
             }
         }
         file.close();
     }
+    else
+    {
+        std::cout << "Unable to open file." << std::endl;
+    }
 }
 
-void fetchBookByTitle(std::string title)
+std::vector<std::string> fetchBookByTitle(std::string title)
 {
     std::ifstream file(libraryFile);
+    std::vector<std::string> bookData;
     if (file.is_open())
     {
         std::string line;
@@ -290,8 +295,11 @@ void fetchBookByTitle(std::string title)
                     std::cout << "Found the book with title: " << title << std::endl;
                     // std::cout << "Title: " << title << std::endl;
                     std::cout << "Author: " << authorLine.substr(8) << std::endl;
+                    bookData.push_back(authorLine.substr(8));
                     std::cout << "Year: " << yearLine.substr(6) << std::endl;
+                    bookData.push_back(yearLine.substr(6));
                     std::cout << "Genre: " << genreLine.substr(7) << std::endl;
+                    bookData.push_back(genreLine.substr(7));
 
                     bookFound = true; // Set flag to true since the book was found
                     break;            // Exit the loop once the book is found
@@ -305,6 +313,164 @@ void fetchBookByTitle(std::string title)
         if (!bookFound)
         {
             std::cout << "Book with title '" << title << "' not found." << std::endl;
+        }
+    }
+    else
+    {
+        std::cout << "Unable to open file." << std::endl;
+    }
+    return bookData;
+}
+
+std::vector<std::string> updateBookByTitle(std::string title)
+{
+    std::ifstream file(libraryFile);
+    std::ofstream tempFile("temp.txt");
+    std::vector<std::string> bookInformation;
+
+    if (file.is_open() && tempFile.is_open())
+    {
+        std::string line;
+        bool bookFound = false;
+
+        while (std::getline(file, line))
+        {
+            if (line.find("Title: " + title) != std::string::npos)
+            {
+                // The book with the given title is found, get its details
+                std::string authorLine, yearLine, genreLine;
+                std::getline(file, authorLine);
+                std::getline(file, yearLine);
+                std::getline(file, genreLine);
+
+                std::string newTitle, newAuthor, newYear, newGenre;
+                fetchBookByTitle(title);
+
+                bookFound = true;
+
+                // Prompt for new details
+                std::cout << "Enter new details for the book:" << std::endl;
+                std::cout << "Title: ";
+                std::getline(std::cin, newTitle);
+
+                std::cout << "Author: ";
+                std::getline(std::cin, newAuthor);
+
+                std::cout << "Year: ";
+                std::getline(std::cin, newYear); // Corrected to std::getline for consistency
+
+                std::cout << "Genre: ";
+                std::getline(std::cin, newGenre);
+
+                // Store the new book data in the vector
+                bookInformation.push_back(newTitle);
+                bookInformation.push_back(newAuthor);
+                bookInformation.push_back(newYear);
+                bookInformation.push_back(newGenre);
+
+                // Write the updated book information to the temp file
+                tempFile << "Title: " << newTitle << std::endl;
+                tempFile << "Author: " << newAuthor << std::endl;
+                tempFile << "Year: " << newYear << std::endl;
+                tempFile << "Genre: " << newGenre << std::endl;
+
+                // Skip the next 3 lines in the original file (the original book's details)
+                std::getline(file, line); // Skip Author line
+                std::getline(file, line); // Skip Year line
+                std::getline(file, line); // Skip Genre line
+            }
+            else
+            {
+                // If the current line doesn't match, write it to the temp file
+                tempFile << line << std::endl;
+            }
+        }
+
+        file.close();
+        tempFile.close();
+
+        // Replace the original file with the updated temp file
+        if (bookFound)
+        {
+            std::remove(libraryFile.c_str());
+            std::rename("temp.txt", libraryFile.c_str());
+            std::cout << "Book with title '" << title << "' has been updated." << std::endl;
+        }
+        else
+        {
+            std::remove("temp.txt"); // Remove the temp file if no book was found
+            std::cout << "Book with title '" << title << "' not found." << std::endl;
+        }
+    }
+    else
+    {
+        std::cout << "Unable to open file." << std::endl;
+    }
+
+    return bookInformation;
+}
+
+std::vector<std::string> updateUserByFirstName(std::string firstName)
+{
+    std::ifstream file(userFile);
+    std::ofstream tempFile("temp.txt");
+    std::vector<std::string> userData;
+    bool userFound = false;
+
+    if (file.is_open() && tempFile.is_open())
+    {
+        std::string line;
+        while (std::getline(file, line))
+        {
+            std::istringstream iss(line);
+            if (line.find(firstName) != std::string::npos)
+            {
+                std::string token;
+                std::vector<std::string> updatedUserData;
+                fetchUserByFirstName(firstName);
+                while (std::getline(iss, token, ','))
+                {
+                    userData.push_back(token);
+                }
+
+                std::string newFirstName, newLastName;
+                std::cout << "Enter new details for the user:" << std::endl;
+                std::cout << "First Name: ";
+                std::cin.ignore();
+                std::getline(std::cin, newFirstName);
+
+                std::cout << "Last Name: ";
+                std::getline(std::cin, newLastName);
+
+                updatedUserData.push_back(newFirstName);
+                updatedUserData.push_back(newLastName);
+
+                userFound = true;
+
+                tempFile << updatedUserData[0] << "," << updatedUserData[1] << std::endl;
+
+                break;
+            }
+            else
+            {
+                tempFile << line << std::endl;
+            }
+        }
+
+        file.close();
+        tempFile.close();
+        
+        // Replace the original file with the updated temp file
+        if (userFound)
+        {
+            std::remove(userFile.c_str());
+            std::rename("temp.txt", userFile.c_str());
+            std::cout << "User with first name '" << firstName << "' has been updated." << std::endl;
+        }
+        else
+        {
+            std::remove("temp.txt");
+            std::cout << "User with first name '" << firstName << "' not found." << std::endl;
         }
     }
     else

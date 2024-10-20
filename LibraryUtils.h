@@ -93,7 +93,7 @@ void searchForUser()
     std::cout << "-----------------------------" << std::endl;
     User user;
     user.setFirstName();
-    
+
     fetchUserByFirstName(user.getFirstName());
 
     std::cout << "User found!" << std::endl;
@@ -119,7 +119,8 @@ void removeBook()
     std::cout << "Book removed successfully.\n";
 }
 
-void searchForBook(){
+void searchForBook()
+{
     // Search for book implementation
     std::cout << "Searching for book..." << std::endl;
     std::cout << "-----------------------------" << std::endl;
@@ -128,6 +129,34 @@ void searchForBook(){
     fetchBookByTitle(book.getTitle());
     // std::cout << "-----------------------------" << std::endl;
     // std::cout << "Book found!" << std::endl;
+}
+
+void updateBook()
+{
+    // Update book implementation
+    std::cout << "Updating book..." << std::endl;
+    std::cout << "-----------------------------" << std::endl;
+    Book book;
+    book.setTitle();
+
+    std::vector<std::string> bookData = updateBookByTitle(book.getTitle());
+    if (!bookData.empty())
+    {
+        std::cout << "-----------------------------" << std::endl;
+
+        std::cout << "Book updated sucessfully:" << std::endl;
+    }
+}
+
+void updateUser(){
+    // Update user implementation
+    std::cout << "Updating user..." << std::endl;
+    std::cout << "-----------------------------" << std::endl;
+    User user;
+    user.setFirstName();
+
+    updateUserByFirstName(user.getFirstName());
+    
 }
 
 void initiateLibrarySystem(int choice)
@@ -158,12 +187,12 @@ void initiateLibrarySystem(int choice)
     case 8:
         displayBooks();
         break;
-    // case 9:
-    //     updateBook();
-    //     break;
-    // case 10:
-    //     updateUser();
-    //     break;
+    case 9:
+        updateBook();
+        break;
+    case 10:
+        updateUser();
+        break;
     default:
         std::cout << "Invalid choice. Please try again.\n";
     }
