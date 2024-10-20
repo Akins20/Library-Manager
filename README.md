@@ -50,12 +50,12 @@ The project is broken into modular components to ensure scalability and maintain
 ### **Steps to Install and Run:**
 1. **Clone the Repository**:
    ```bash
-   git clone <repository-url>
+   git clone <https://github.com/Akins20/Library-Manager.git>
    ```
 
 2. **Navigate to the Project Directory**:
    ```bash
-   cd Library-Management-System
+   cd Library-Manager
    ```
 
 3. **Compile the Project**:
