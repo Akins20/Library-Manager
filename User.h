@@ -15,7 +15,7 @@ public:
         std::cin >> fName;
     };
 
-    void setLastame(){
+    void setLastName(){
         std::cout << "Enter last name: ";
         std::cin >> lName;
     };

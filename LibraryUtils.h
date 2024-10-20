@@ -18,7 +18,7 @@ void addUser()
     std::cout << "Adding user..." << std::endl;
     User user;
     user.setFirstName();
-    user.setLastame();
+    user.setLastName();
 
     std::vector<std::string> userInfo;
     std::string firstName, lastName;
@@ -38,7 +38,7 @@ void removeUser()
     std::cout << "Removing user..." << std::endl;
     User user;
     user.setFirstName();
-    user.setLastame();
+    user.setLastName();
 
     std::vector<std::string> userInfo;
     std::string firstName, lastName;
